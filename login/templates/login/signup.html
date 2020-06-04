@@ -1,0 +1,12 @@
+{% extends 'djangoApp/base.html' %}
+{% block content %}
+	<h1> Sign-Up </h1>
+	<hr/>
+	<br/>
+	<form action="" method="POST">
+		{% csrf_token %}
+		{{form.as_p}}
+		<br/>
+		<input type="submit" name="Create User" class="btn btn-success"/>
+	</form>
+{% endblock %}

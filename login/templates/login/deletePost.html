@@ -1,0 +1,10 @@
+{% extends 'djangoApp/base.html' %}
+{% block content %}
+<form actions="{% url 'DeletePost' post.id %}" method="POST">
+	{% csrf_token %}
+	Are you sure you wish to delete the post titled {{post.title}}
+	<br/>
+	<a href="/posts"><button type="button" class="btn btn-primary"> Cancel </button> </a>
+	<input type="submit" name="submit" value="Delete" class="btn btn-danger"/>
+</form>
+{% endblock %}

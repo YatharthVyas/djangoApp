@@ -1,0 +1,32 @@
+{% extends 'djangoApp/base.html' %}
+{% block content %}
+<h2>{{user.djangoUser.username}}</h2>
+<h4>{{user.djangoUser.email}}</h4>
+<br/>
+<h4> User's Posts: </h4>
+{% for post in posts %}
+	<div class="card">
+		  <div class="card-body">
+		    <h5 class="card-title">{{post.title}}</h5>
+		    <h6 class="card-subtitle mb-2 text-muted">
+		    	Posted by <a href="{% url 'Profile' post.user %}">{{post.user.djangoUser.username}} </a> 
+		    </h6>
+		    <div align="right">
+		    	<a href="{% url 'EditPost' post.id %}">
+		    		<button class="btn btn-primary"> 
+		    			Edit Post 
+		    		</button> 
+		    	</a> 
+		    	<a href="{% url 'DeletePost' post.id %}">
+		    		<button class="btn btn-danger"> 
+		    			Delete Post 
+		    		</button> 
+		    	</a> 
+		    </div>
+		    <div align="right"> Created: {{post.date_posted}}</div>
+		    <p class="card-text">{{post.content}}</p>
+		  </div>
+		</div>
+		<br/>
+{% endfor %}
+{% endblock %}

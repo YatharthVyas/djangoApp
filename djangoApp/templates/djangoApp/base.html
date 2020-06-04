@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Base</title>
+	<style>
+		.top-heading{
+			background: grey !important;
+			color: white;
+			padding-left: 10vw !important;
+		}
+		.form-table input{
+			margin: 10px;
+		}
+	</style>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+	{% include 'djangoApp/navbar.html' %}
+	<div class='jumbotron top-heading'><h1> Get Social </h1></div>
+	<div class="container">
+		{% block content %}
+
+		{% endblock %}
+	</div>
+</body>
+</html>

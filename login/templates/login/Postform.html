@@ -1,0 +1,13 @@
+{% extends 'djangoApp/base.html' %}
+{% block content %}
+<form action="{% url 'MakePost'%}" method="POST">
+	{% csrf_token %}
+	<ul type=none>
+		User: <b>{{user.djangoUser.username}}</b><br/><br/>
+		<div style="display:none">{{form.user}}</div>
+		Post Title: {{form.title}}<br/>
+		Post Content: {{form.content}}
+	</ul>
+	<input type="submit" name="submit" class="btn btn-success"/>
+</form>
+{% endblock %}
