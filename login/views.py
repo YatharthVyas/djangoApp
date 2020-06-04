@@ -46,8 +46,7 @@ def post_feed(request):
 
 def profile(request,userid):
 	user = User.objects.get(id=userid)
-	posts = user.post_set.all()
-	return render(request,'login/profilepage.html',{'user':user,'posts':posts})
+	return render(request,'login/profilepage.html',{'user':user,'posts':user.post_set.all()})
 
 @login_required(login_url='login')
 def postForm(request):
@@ -85,3 +84,16 @@ def deletePostForm(request,id):
 def logoutPage(request):
 	logout(request)
 	return redirect('/')
+
+@login_required(login_url="login/")
+def viewPost(request,id):
+	currentPost = Post.objects.get(id=id)
+	comments = currentPost.comment_set.all()
+	print(comments)
+	if request.method == 'POST':
+		form = CommentForm(request.POST)
+		if form.is_valid():
+			form.save()	
+			return redirect('/posts')
+	return render(request,'login/viewPost.html',{'form':CommentForm(initial={'user':request.user.user,'post':currentPost}),'post':currentPost,'comments':comments})
+

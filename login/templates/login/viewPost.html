@@ -1,0 +1,57 @@
+{% extends 'djangoApp/base.html' %}
+{% block content %}
+<div class="card border-secondary">
+  <div class="card-body">
+    <h3 class="card-title">{{post.title}}</h3>
+    <h6 class="card-subtitle mb-2 text-muted">
+    	Posted by <a href="{% url 'Profile' post.user.id %}">{{post.user.djangoUser.username}} </a> 
+    </h6>
+    {% if post.user.djangoUser.id == request.user.id %}
+    <div align="right">
+    	<a href="{% url 'EditPost' post.id %}">
+    		<button class="btn btn-primary"> 
+    			Edit Post 
+    		</button> 
+    	</a> 
+    	<a href="{% url 'DeletePost' post.id %}">
+    		<button class="btn btn-danger"> 
+    			Delete Post 
+    		</button> 
+    	</a> 
+    </div>
+    {% endif %}
+    <div align="right"> Created: {{post.date_posted}}</div>
+    <p class="card-text">{{post.content}}</p>
+  </div>
+</div>
+<br/>
+<br/>
+<h4> Comments: </h4>
+{% for comment in comments %}
+	<div class="card border-secondary">
+  <div class="card-body">
+    <h6 class="card-subtitle mb-2 text-muted">
+    	Posted by <a href="{% url 'Profile' post.user.id %}">{{comment.user.djangoUser.username}} </a> 
+    </h6>
+    <div align="right"> Posted: {{comment.date_posted}}</div>
+    <p class="card-text">{{comment.content}}</p>
+  </div>
+</div>
+<br/>
+<br/>
+{% endfor %}
+<br/>
+<h4> Add Comment:</h4>
+<form action="" method="POST">
+	{% csrf_token %}
+	<div style="display:none">
+		{{form.user}}
+		{{form.post}}
+	</div>
+	{{form.content}}
+	<br/>
+	<input type="submit" name="submit" value="Post Comment" class="btn btn-success"/>
+	<br/>
+	<br/>
+</form>
+{% endblock %}	

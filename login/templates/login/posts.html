@@ -1,12 +1,13 @@
 {% extends 'djangoApp/base.html' %}
 {% block content %}
 	{% for post in posts %}
-		<div class="card">
+		<div class="card border-secondary mb-3">
 		  <div class="card-body">
-		    <h5 class="card-title">{{post.title}}</h5>
+		    <h4 class="card-title"><a style="color:black" href="{% url 'ViewPost' post.id %}">{{post.title}} </a></h4>
 		    <h6 class="card-subtitle mb-2 text-muted">
 		    	Posted by <a href="{% url 'Profile' post.user.id %}">{{post.user.djangoUser.username}} </a> 
 		    </h6>
+		    <hr/>
 		    {% if post.user.djangoUser.id == request.user.id %}
 		    <div align="right">
 		    	<a href="{% url 'EditPost' post.id %}">

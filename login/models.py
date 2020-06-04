@@ -11,3 +11,9 @@ class Post(models.Model):
 	title = models.CharField(max_length=200,null=True)
 	content = models.TextField(max_length=500,null=True)
 	date_posted = models.DateTimeField(auto_now_add=True)
+
+class Comment(models.Model):
+	user= models.ForeignKey(User,null=True,on_delete=models.SET_NULL)
+	post= models.ForeignKey(Post,null=True,on_delete=models.SET_NULL)
+	content = models.TextField(max_length=500,null=True)
+	date_posted = models.DateTimeField(auto_now_add=True)

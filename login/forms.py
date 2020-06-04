@@ -20,3 +20,12 @@ class CreateUserForm(UserCreationForm):
 	class Meta:
 		model = djangoUser
 		fields = ['username','first_name','last_name','email','password1','password2']
+
+
+class CommentForm(forms.ModelForm):
+	class Meta:
+		model = Comment
+		fields = '__all__'
+		widgets = {
+            'content': forms.Textarea(attrs={'class': 'form-control'}),
+        }

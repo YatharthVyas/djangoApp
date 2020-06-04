@@ -1,13 +1,16 @@
 {% extends 'djangoApp/base.html' %}
 {% block content %}
-<h2>{{user.djangoUser.username}}</h2>
-<h4>{{user.djangoUser.email}}</h4>
+
+<h2>{{user.djangoUser.first_name}} {{user.djangoUser.last_name}}</h2>
+<h4>Username: {{user.djangoUser.username}}</h4>
+<h4>Email: {{user.djangoUser.email}}</h4>
 <br/>
+<hr/>
 <h4> User's Posts: </h4>
 {% for post in posts %}
-	<div class="card">
+	<div class="card border-secondary">
 		  <div class="card-body">
-		    <h5 class="card-title">{{post.title}}</h5>
+		    <h4 class="card-title"><a style="color:black" href="{% url 'ViewPost' post.id %}">{{post.title}} </a></h4>
 		    <h6 class="card-subtitle mb-2 text-muted">
 		    	Posted by <a href="{% url 'Profile' post.user %}">{{post.user.djangoUser.username}} </a> 
 		    </h6>
