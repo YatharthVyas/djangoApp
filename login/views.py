@@ -57,20 +57,25 @@ def postForm(request):
 		if form.is_valid():
 			form.save()
 			return redirect('/posts')
-	return render(request,'login/Postform.html',{'form':CreatePostForm(initial={'user':request.user.user}),'user':user})
+	return render(request,'login/Postform.html',{'form':CreatePostForm(initial={'user':request.user.user})})
 
 @login_required(login_url="login/")
 def editPostForm(request,id):
 	currentPost = Post.objects.get(id=id)
+	if currentPost.user != request.user.user:
+		return redirect('/posts')
 	if request.method == 'POST':
 		form = CreatePostForm(request.POST,instance=currentPost)
 		if form.is_valid():
 			form.save()	
+			return redirect('/posts')
 	return render(request,'login/Postform.html',{'form':CreatePostForm(instance=currentPost)})
 
 @login_required(login_url="login/")
 def deletePostForm(request,id):
 	currentPost = Post.objects.get(id=id)
+	if currentPost.user != request.user.user:
+		return redirect('/posts')
 	if request.method == 'POST':
 		currentPost.delete()
 		return redirect('/posts')
