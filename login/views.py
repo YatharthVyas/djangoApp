@@ -4,6 +4,7 @@ from .forms import *
 from django.contrib import messages
 from django.contrib.auth import authenticate,login as djangoLogin,logout
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 # Create your views here.
 def login(request):
@@ -29,9 +30,11 @@ def signup(request):
 		if request.method=="POST":
 			form=CreateUserForm(request.POST)
 			if form.is_valid():
-				form.save()
+				newUser = form.save()
+				newUserModelObject = User(djangoUser=newUser)
+				newUserModelObject.save()
 				username = form.cleaned_data.get('username')
-				messages.success(request,"Accont Created for "+username)
+				messages.success(request,"Account Created for "+username)
 				return redirect('/login')
 		context={'form':form}
 		return render(request,'login/signup.html',context)
@@ -41,6 +44,14 @@ def userlist(request):
 	return render(request,'login/userList.html',{'users':user_list}) #passing query to template
 
 def post_feed(request):
+	if request.method == 'POST':
+		search_term = request.POST.get('search')
+		searchedPosts=Post.objects.filter(
+			Q(content__icontains=search_term) |			#Q is a query field and | applies OR operation to all the queries
+			Q(title__icontains=search_term)
+
+		).order_by('-date_posted')
+		return render(request,'login/posts.html',{'posts':searchedPosts})
 	posts = Post.objects.order_by('-date_posted') #Sorts the post by most recent first
 	return render(request,'login/posts.html',{'posts':posts})
 
@@ -94,6 +105,5 @@ def viewPost(request,id):
 		form = CommentForm(request.POST)
 		if form.is_valid():
 			form.save()	
-			return redirect('/posts')
 	return render(request,'login/viewPost.html',{'form':CommentForm(initial={'user':request.user.user,'post':currentPost}),'post':currentPost,'comments':comments})
 
